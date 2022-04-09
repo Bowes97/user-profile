@@ -1,0 +1,71 @@
+<div class="container">
+    <form [formGroup]="personForm">
+        <h1>Анкета</h1>
+        <mat-form-field class="example-full-width" appearance="fill" class="input">
+            <mat-label>Ім'я</mat-label>
+            <input matInput placeholder="Ім'я" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill" class="input">
+            <mat-label>Прізвище</mat-label>
+            <input matInput placeholder="Прізвище" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="input">
+            <mat-label>Виберіть дату народження</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="input">
+            <mat-label>Виберіть фреймворк</mat-label>
+            <mat-select formControlName="framework">
+                <mat-option *ngFor="let f of frameworks" [value]="f.framework" (click)="changeProp($event)">
+                    {{ f.framework }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="input">
+            <mat-label>Виберіть версію фреймворку</mat-label>
+            <mat-select [disabled]="version === 0" formControlName="frameworkVersion">
+                <ng-container *ngIf="version === 1">
+                    <mat-option *ngFor="let a of angular" [value]="a.frameworksVersion">
+                        {{ a.frameworksVersion }}
+                    </mat-option>
+                </ng-container>
+                <ng-container *ngIf="version === 2">
+                    <mat-option *ngFor="let r of react" [value]="r.frameworksVersion">
+                        {{ r.frameworksVersion }}
+                    </mat-option>
+                </ng-container>
+                <ng-container *ngIf="version === 3">
+                    <mat-option *ngFor="let v of vue" [value]="v.frameworksVersion">
+                        {{ v.frameworksVersion }}
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill" class="input">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email"> 
+        </mat-form-field>
+        <div formGroupName="hobby">
+            <p *ngFor="let arr of array" class="hobbies">
+                Хоббі: {{arr.name}} - Тривалість: {{arr.duration}}
+            </p>
+            <mat-form-field class="example-full-width" appearance="fill" class="input">
+                <mat-label>Хоббі</mat-label>
+                <input matInput placeholder="Хоббі" [(ngModel)]="name" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill" class="input">
+                <mat-label>Тривалість</mat-label>
+                <input matInput placeholder="Тривалість" [(ngModel)]="duration" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <div class="btn">
+                <button (click)="loadHobby()" mat-flat-button color="warn">Добавити Хоббі</button>
+            </div>
+        </div>
+        <div class="btn">
+            <button class="btn" mat-raised-button color="primary" (click)="addperson()"
+                [disabled]="personForm.invalid">Добавити</button>
+        </div>
+    </form>
+</div>
